@@ -7,7 +7,7 @@ namespace Homework__9_Kovalenko
     {
         static void Main()
         {
-            //Console.InputEncoding = Encoding.GetEncoding(1251);
+           
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             
 
