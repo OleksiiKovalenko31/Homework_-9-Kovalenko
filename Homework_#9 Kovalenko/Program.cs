@@ -11,7 +11,7 @@ namespace Homework__9_Kovalenko
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             
 
-            Random rndArray = new Random();
+            Random rndArray = new();
             int[] maxArray = new int[10];
 
             // 1.Написати програму, що знаходить другий найбільший елемент масиву.
@@ -47,7 +47,7 @@ namespace Homework__9_Kovalenko
             Console.WriteLine("Створений масив:");
             int[,] multiArray = new int[4, 4];
             int[] tempArray = new int[multiArray.Length];
-
+            // створюємо масив
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -60,18 +60,17 @@ namespace Homework__9_Kovalenko
 
             Console.WriteLine("\nСортований массив:");
 
-            BubbleSort(tempArray);
-
+            // переводимо в одномірний масив
             int tempIndex = 0;
             foreach (var item in multiArray)
             {
                 tempArray[tempIndex] = item;
                 tempIndex++;
             }
-
+            //сортуємо
             tempArray = BubbleSort(tempArray);
 
-            //Повернення в двовиміний масив
+            //Повертаємо в двовиміний масив
             tempIndex = 0;
             for (int i = 0; i < 4; i++)
             {
@@ -88,49 +87,57 @@ namespace Homework__9_Kovalenko
            Console.WriteLine("3.Написати програму, що буде видаляти з масиву елемент за вказаним індексом.");
            int indexDelete = 0;
            Console.WriteLine("Масив:");
+            // Беремо масив з першого завдання
            foreach (var item in maxArray)
            {
-               //Console.Write($"{indexDelete}");
+            
                Console.Write($"{indexDelete}-[{item}] ");
                indexDelete++;
            }
            Console.WriteLine();
-           indexDelete = 0;
-           Console.Write($"\nВведіть номер елемента для видалення _ ");
+           Console.Write($"\nВведіть номер елемента для видалення _ "); // вибераємо який елемент видалити
 
 
-           if(int.TryParse(Console.ReadLine() , out indexDelete))
-           {
-                tempArray = new int[maxArray.Length - 1];
+            if (int.TryParse(Console.ReadLine(), out indexDelete) && indexDelete < maxArray.Length - 1)
+            {
+                tempArray = new int[maxArray.Length - 1]; //створюємо тимчасовий масив і видаляємо вказаний елемент
 
-               for (int i = 0, j = 0; i < tempArray.Length; i++)
-               {
-                   if (i != indexDelete) 
-                   {
-                       tempArray[j] = maxArray[i];
-                       j++;
-                   }
-               }
-               Console.WriteLine($"\nВидалено: {indexDelete}-[{maxArray[indexDelete]}]");
-               maxArray = tempArray;
-               indexDelete = 0;
-               Console.WriteLine();
-               Console.WriteLine("Масив з видаленим елементом:");
+                for (int i = 0, j = 0; i < tempArray.Length; i++)
+                {
+                    if (i != indexDelete)
+                    {
+                        tempArray[j] = maxArray[i];
+                        j++;
+                    }
+                }
 
-               foreach (var item in maxArray)
-               {
-                   Console.Write($"{indexDelete}-[{item}] ");
-                   indexDelete++;
-               }
-               Console.WriteLine("\n");
-           }
+                Console.WriteLine($"\nВидалено: {indexDelete}-[{maxArray[indexDelete]}]");
+                maxArray = tempArray;
+                indexDelete = 0;
+                Console.WriteLine();
+                Console.WriteLine("Масив з видаленим елементом:");
+                // тимчасовий масив перезаписуємо в наш.
+                foreach (var item in maxArray)
+                {
+                    Console.Write($"{indexDelete}-[{item}] ");
+                    indexDelete++;
+                }
+                Console.WriteLine("\n");
+            }
+            else if (indexDelete > maxArray.Length - 1 || indexDelete <0)
+            {
+                Console.WriteLine("Введене значення поза межами масиву.\n Елемент видалено не буде!");
+            }
+            else { Console.WriteLine("Введено некоректні дані.\n Елемент видалено не буде!"); }
+
+           
            Console.WriteLine("-----------------------------");
 
             //4.Написати програму, що буде знаходити суму елементів по діагоналі у двовимірному масиві.
 
             Console.WriteLine("4.Написати програму, що буде знаходити суму елементів по діагоналі у двовимірному масиві.\n");
             Console.WriteLine("!!! Використано сортований масив із завдвння 2.");
-            StringBuilder strBuilder = new StringBuilder();
+            StringBuilder strBuilder = new();
             strBuilder = strBuilder.Append("Сума елементів ");
             int sumElemnt = 0;
             for (int i = 0, j = 0;i < multiArray.GetLength(0) ;i++ ,j++)
@@ -141,14 +148,8 @@ namespace Homework__9_Kovalenko
             }
             strBuilder = strBuilder.Append($" = {sumElemnt}");
             Console.WriteLine(strBuilder);
+            Console.WriteLine("-----------------------------");
         }//Кінець Main
-
-        static void Swap(ref int e1, ref int e2)
-        {
-            var temp = e1;
-            e1 = e2;
-            e2 = temp;
-        } // Кінець Swap
 
         static int[] BubbleSort(int[] array)
         {
@@ -159,8 +160,10 @@ namespace Homework__9_Kovalenko
                 {
                     if (array[j] > array[j + 1])
                     {
-
-                        Swap(ref array[j], ref array[j + 1]);
+                        int temp = array[j];
+                        array[j] = array[j + 1];
+                        array[j + 1] = temp;
+                      
                     }
                 }
             }
